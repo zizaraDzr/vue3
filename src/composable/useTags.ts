@@ -1,0 +1,17 @@
+import { ref } from 'vue';
+import { api } from 'src/services';
+
+export function useTags() {
+  const tags = ref<string[]>([]);
+
+  async function fetchTags(): Promise<void> {
+    tags.value = [];
+    console.log('fetchTags');
+    tags.value = await api.tags.getTags().then(({ data }) => data.tags);
+  }
+
+  return {
+    fetchTags,
+    tags,
+  };
+}
