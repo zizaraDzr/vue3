@@ -30,9 +30,7 @@ export function useArticles() {
 
     switch (articlesType.value) {
       case 'my-feed':
-        responsePromise = api.articles
-          .getArticlesFeed()
-          .then((res) => res.data);
+        responsePromise = api.articles.getArticlesFeed().then((res) => res.data);
         break;
       case 'global-feed':
         responsePromise = api.articles.getArticles().then((res) => res.data);
@@ -50,8 +48,7 @@ export function useArticles() {
     articles.value = response.articles;
   }
 
-  const { active: articlesDownloading, run: runWrappedFetchArticles } =
-    useAsync(fetchArticles);
+  const { active: articlesDownloading, run: runWrappedFetchArticles } = useAsync(fetchArticles);
   return {
     fetchArticles: runWrappedFetchArticles,
     articlesDownloading,
@@ -100,8 +97,7 @@ export function useArticlesMeta(): UseArticlesMetaReturn {
   watch(
     () => route.name,
     (routeName) => {
-      const possibleArticlesType =
-        routeNameToArticlesType[routeName as AppRouteNames];
+      const possibleArticlesType = routeNameToArticlesType[routeName as AppRouteNames];
       if (!isArticlesType(possibleArticlesType)) return;
 
       articlesType.value = possibleArticlesType;
@@ -113,8 +109,6 @@ export function useArticlesMeta(): UseArticlesMetaReturn {
     tag: computed(() => tag.value),
     username: computed(() => username.value),
     articlesType: computed(() => articlesType.value),
-    metaChanged: computed(
-      () => `${articlesType.value}-${username.value}-${tag.value}`
-    ),
+    metaChanged: computed(() => `${articlesType.value}-${username.value}-${tag.value}`),
   };
 }

@@ -32,6 +32,16 @@ export const routes: RouteRecordRaw[] = [
     path: '/tag/:tag',
     component: Home,
   },
+  {
+    name: 'profile',
+    path: '/profile/:username',
+    component: Home,
+  },
+  {
+    name: 'article',
+    path: '/slug/:slug',
+    component: Home,
+  },
 ];
 
 export const router = createRouter({
@@ -43,7 +53,5 @@ export function routerPush(
   name: AppRouteNames,
   params?: RouteParams
 ): ReturnType<typeof router.push> {
-  return params === undefined
-    ? router.push({ name })
-    : router.push({ name, params });
+  return params === undefined ? router.push({ name }) : router.push({ name, params });
 }

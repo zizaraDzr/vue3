@@ -29,9 +29,7 @@ interface UseAsync<T extends (...args: unknown[]) => unknown> {
   run: (...args: Parameters<T>) => Promise<ReturnType<T>>;
 }
 
-export default function useAsync<T extends (...args: unknown[]) => unknown>(
-  fn: T
-): UseAsync<T> {
+export default function useAsync<T extends (...args: unknown[]) => unknown>(fn: T): UseAsync<T> {
   const active: UseAsync<T>['active'] = ref(false);
   const run: UseAsync<T>['run'] = async (...args) => {
     active.value = true;
