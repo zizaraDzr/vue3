@@ -1,7 +1,8 @@
 import type { RouteParams, RouteRecordRaw } from 'vue-router';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Home from './pages/Home.vue';
-import Test from './pages/Test.vue';
+import Login from './pages/Login.vue';
+import { isAuthorized } from './store/user';
 
 export type AppRouteNames =
   | 'global-feed'
@@ -25,7 +26,7 @@ export const routes: RouteRecordRaw[] = [
   {
     name: 'my-feed',
     path: '/my-feeds',
-    component: Test,
+    component: Login,
   },
   {
     name: 'tag',
@@ -41,6 +42,18 @@ export const routes: RouteRecordRaw[] = [
     name: 'article',
     path: '/slug/:slug',
     component: Home,
+  },
+  {
+    name: 'login',
+    path: '/login',
+    component: () => import('./pages/Login.vue'),
+    beforeEnter: () => !isAuthorized(),
+  },
+  {
+    name: 'register',
+    path: '/register',
+    component: () => import('./pages/Register.vue'),
+    beforeEnter: () => !isAuthorized(),
   },
 ];
 

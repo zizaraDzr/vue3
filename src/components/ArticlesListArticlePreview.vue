@@ -19,6 +19,8 @@
         :aria-label="article.favorited ? 'Unfavorite article' : 'Favorite article'"
         class="btn btn-sm pull-xs-right"
         :class="[article.favorited ? 'btn-primary' : 'btn-outline-primary']"
+        :disabled="favoriteProcessGoing"
+        @click="favoriteArticle"
       >
         <i class="ion-heart" /> {{ article.favoritesCount }}
       </button>
@@ -38,9 +40,21 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from 'vue';
+import { useFavoriteArticle } from 'src/composable/useFavoriteArticle';
 import type { Article } from 'src/services/api';
 interface Props {
   article: Article;
 }
+interface Emits {
+  (e: 'update', article: Article): void;
+}
 const props = defineProps<Props>();
+const emit = defineEmits<Emits>();
+
+const { favoriteProcessGoing, favoriteArticle } = useFavoriteArticle({
+  isFavorited: computed(() => props.article.favorited),
+  articleSlug: computed(() => props.article.slug),
+  onUpdate: (newArticle: Article): void => emit('update', newArticle),
+});
 </script>

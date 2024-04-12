@@ -5,9 +5,10 @@
   <div v-else-if="articles.length === 0" class="article-preview">No articles are here... yet.</div>
   <template v-else>
     <ArticlesListArticlePreview
-      v-for="article in articles"
+      v-for="(article, index) in articles"
       :key="article.slug"
       :article="article"
+      @update="(newArticle) => updateArticle(index, newArticle)"
     />
 
     <!-- <AppPagination
@@ -28,6 +29,7 @@ const {
   fetchArticles,
   articlesDownloading,
   articlesCount,
+  updateArticle,
   articles,
   page,
   changePage,
