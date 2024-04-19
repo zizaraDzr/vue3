@@ -1,6 +1,6 @@
 <template>
   <ArticlesListNavigation v-bind="$attrs" :tag="tag" :username="username" />
-
+  {{ $attrs }}
   <div v-if="articlesDownloading" class="article-preview">Articles are downloading...</div>
   <div v-else-if="articles.length === 0" class="article-preview">No articles are here... yet.</div>
   <template v-else>

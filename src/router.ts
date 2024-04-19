@@ -2,6 +2,7 @@ import type { RouteParams, RouteRecordRaw } from 'vue-router';
 import { createRouter, createWebHashHistory } from 'vue-router';
 import Home from './pages/Home.vue';
 import Login from './pages/Login.vue';
+import Profile from './pages/Profile.vue';
 import { isAuthorized } from './store/user';
 
 export type AppRouteNames =
@@ -36,7 +37,7 @@ export const routes: RouteRecordRaw[] = [
   {
     name: 'profile',
     path: '/profile/:username',
-    component: Home,
+    component: Profile,
   },
   {
     name: 'article',

@@ -47,16 +47,16 @@ const allNavLinks = computed<NavLink[]>(() => [
     title: 'Home',
     display: 'all',
   },
-  // {
-  //   name: 'login',
-  //   title: 'Sign in',
-  //   display: 'anonym',
-  // },
-  // {
-  //   name: 'register',
-  //   title: 'Sign up',
-  //   display: 'anonym',
-  // },
+  {
+    name: 'login',
+    title: 'Sign in',
+    display: 'anonym',
+  },
+  {
+    name: 'register',
+    title: 'Sign up',
+    display: 'anonym',
+  },
   // {
   //   name: 'create-article',
   //   title: 'New Post',
@@ -77,6 +77,6 @@ const allNavLinks = computed<NavLink[]>(() => [
 ]);
 
 const navLinks = computed(() =>
-  allNavLinks.value.filter((l) => l.display === displayStatus.value || l.display === 'all'),
+  allNavLinks.value.filter((l) => l.display === displayStatus.value || l.display === 'all')
 );
 </script>

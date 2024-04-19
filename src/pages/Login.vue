@@ -30,7 +30,7 @@
                 v-model="form.password"
                 aria-label="Password"
                 class="form-control form-control-lg"
-                type="password"
+                type="text"
                 required
                 placeholder="Password"
               />

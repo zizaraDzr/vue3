@@ -15,3 +15,7 @@ app.use(router);
 registerGlobalComponents(app);
 
 app.mount('#app');
+
+// для входа
+// test10@mail.com
+// 12345678

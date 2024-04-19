@@ -14,8 +14,6 @@ export function useFavoriteArticle({
   articleSlug,
   onUpdate,
 }: useFavoriteArticleProps) {
-  console.log({ isFavorited });
-  console.log({ articleSlug });
   const favoriteArticle = async () => {
     const requestor = isFavorited.value
       ? api.articles.deleteArticleFavorite

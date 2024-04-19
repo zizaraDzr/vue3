@@ -17,10 +17,10 @@ const routeNameToArticlesType: Partial<Record<AppRouteNames, ArticlesType>> = {
 export function useArticles() {
   const { articlesType, tag, username, metaChanged } = useArticlesMeta();
   console.log('metaChange', metaChanged.value);
+  console.log('username', username.value);
 
   const articles = ref<Article[]>([]);
   const articlesCount = null;
-  const updateArticle = null;
   const page = null;
   const changePage = null;
 
@@ -28,15 +28,20 @@ export function useArticles() {
     articles.value = [];
     let responsePromise: null | Promise<{ articles: Article[] }> = null;
 
-    switch (articlesType.value) {
-      case 'my-feed':
-        responsePromise = api.articles.getArticlesFeed().then((res) => res.data);
-        break;
-      case 'global-feed':
-        responsePromise = api.articles.getArticles().then((res) => res.data);
-        break;
-      default:
-        break;
+    if (articlesType.value === 'my-feed') {
+      responsePromise = api.articles.getArticlesFeed().then((res) => res.data);
+    } else if (articlesType.value === 'tag-feed' && tag.value) {
+      responsePromise = api.articles.getArticles({ tag: tag.value }).then((res) => res.data);
+    } else if (articlesType.value === 'user-feed' && username.value) {
+      responsePromise = api.articles
+        .getArticles({ author: username.value })
+        .then((res) => res.data);
+    } else if (articlesType.value === 'user-favorites-feed' && username.value) {
+      responsePromise = api.articles
+        .getArticles({ favorited: username.value })
+        .then((res) => res.data);
+    } else if (articlesType.value === 'global-feed') {
+      responsePromise = api.articles.getArticles().then((res) => res.data);
     }
 
     if (responsePromise === null) {
@@ -47,6 +52,9 @@ export function useArticles() {
     const response = await responsePromise;
     articles.value = response.articles;
   }
+  const updateArticle = (index: number, article: Article): void => {
+    articles.value[index] = article;
+  };
 
   const { active: articlesDownloading, run: runWrappedFetchArticles } = useAsync(fetchArticles);
   return {
@@ -101,6 +109,16 @@ export function useArticlesMeta(): UseArticlesMetaReturn {
       if (!isArticlesType(possibleArticlesType)) return;
 
       articlesType.value = possibleArticlesType;
+      console.log(articlesType);
+    },
+    { immediate: true }
+  );
+
+  watch(
+    () => route.params.username,
+    (usernameParam) => {
+      if (usernameParam !== username.value)
+        username.value = typeof usernameParam === 'string' ? usernameParam : '';
     },
     { immediate: true }
   );
